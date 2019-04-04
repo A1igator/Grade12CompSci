@@ -1,13 +1,30 @@
+/**
+ * BonusStudentInfoTest.java
+ * Name: Ali Abdoli
+ * Date: MArch 19, 2019
+ *
+ *     Purpose: Java program to test the ability to read and write information from files and place them in
+ *     objects from keyboard input.
+ *
+ * Methods:
+ *     main - no return
+ *     getNumUserInput - returns int
+ */
+
 import java.io.File;
 import java.util.Scanner;
 
-public class StudInfoTest {
-    public static Scanner keyboard = new Scanner(System.in);
+public class BonusStudentInfoTest {
+    private static Scanner keyboard = new Scanner(System.in);
+
     public static void main(String[] args) {
         StudentIO info = new StudentIO();
+
         boolean keepGoingMain = true;
+
+        // Do-while for main menu
         do {
-            System.out.println("Please select an option:\n" +
+            System.out.println("\nPlease select an option:\n" +
                     "1. Add students from a text file\n" +
                     "2. Read student records from a class file\n" +
                     "3. Manually add a student\n" +
@@ -22,29 +39,40 @@ public class StudInfoTest {
             int mainMenuInput = getNumUserInput(null, 1, 11);
 
             switch (mainMenuInput) {
+
+                // Add students from a text file
                 case 1:
                     System.out.println("Please enter the file name (usually .txt):");
                     File currFile = new File(keyboard.nextLine());
                     info.fileReadMethod(currFile);
+
                     break;
+
+                // Read student records from a class file
                 case 2:
                     System.out.println("Please enter the file name (usually .dat):");
                     File classFile = new File(keyboard.nextLine());
                     info.objectInputMethod(classFile);
-                    System.out.println();
+
+                    // Loops through everything in the class file and outputs all info it can give per StudentRecord.
                     for (int c = 0; c < 10; c++) {
                         if (info.getSaveObjRecord(c) == null)
                             break;
-                        System.out.println(info.getSaveObjRecord(c));
+                        System.out.println(
+                                c + ":\n" +
+                                info.getSaveObjRecord(c) + "\t\tAnd the average is: " + info.getSaveObjRecord(c).calcAver() + "\n");
                     }
-                    System.out.println();
+
                     break;
+
+                // Manually add a student
                 case 3:
                     String name;
                     if (info.getCounter() == 10) {
                         System.out.println("Records are full. (max 10)");
                         break;
                     }
+
                     try {
                         System.out.println("What is their first and last name?");
                         name = keyboard.nextLine();
@@ -55,6 +83,7 @@ public class StudInfoTest {
                         System.out.println("Error: Invalid Input, please enter their first and last name (ie Ali Abdoli)\n");
                         name = null;
                     }
+
                     System.out.println("What is their address?");
                     String address = keyboard.nextLine();
 
@@ -76,6 +105,8 @@ public class StudInfoTest {
                     System.out.println();
                     if (name == null || grade == -1 || mathMark == -1 || sciMark == -1 || engMark == -1 || compMark == -1)
                         break;
+
+                    // Only creates instance after it makes sure all input is valid.
                     info.setStudentRecord();
                     info.getStudentRecord().setName(name);
                     info.getStudentRecord().setAddress(address);
@@ -85,39 +116,57 @@ public class StudInfoTest {
                     info.getStudentRecord().setEngMark(engMark);
                     info.getStudentRecord().setCompMark(compMark);
                     info.setIncreaseCount();
+
                     break;
+
+                // Save students to a backup text file
                 case 4:
                     System.out.println("Please enter the file name (usually .txt):");
                     File backFile = new File(keyboard.nextLine());
 
                     info.writeFileMethod(backFile);
+
                     break;
+
+                // Save students to a class file
                 case 5:
                     System.out.println("Please enter the file name (usually .dat):");
                     File newFile = new File(keyboard.nextLine());
 
                     info.writeObjectMethod(newFile);
+
                     break;
+
+                // Output information of all students
                 case 6:
-                    System.out.println("There are " + info.getCounter() + " student record(s) saved.\n");
+                    System.out.println("There are " + info.getCounter() + " student record(s) saved.");
                     if (info.getCounter() == 0)
                         break;
-                    System.out.println("The student records are:\n");
+                    System.out.println("\nThe student records are:\n");
 
+                    // Loops through everything stored (in saveRecord) and outputs all info it can give per StudentRecord.
                     for (int c = 0; c < info.getCounter(); c++) {
-                        System.out.println(c + ":");
-                        System.out.println(info.getSaveRecord(c) + "\t\tAnd the average is: " + info.getSaveObjRecord(c).calcAver() + "\n");
+                        System.out.println(
+                                c + ":\n" +
+                                info.getSaveRecord(c) + "\t\tAnd the average is: " + info.getSaveRecord(c).calcAver() + "\n");
                     }
+
                     break;
+
+                // Output information of a student
                 case 7:
-                    int infoUserInput = 0;
+                    int infoUserInput;
                     boolean keepGoingInfo = true;
+
                     System.out.println("Please give the index of the student (0-9):");
                     int indexInput = getNumUserInput(info ,0 ,9);
+
                     if (indexInput == -1)
                         break;
+
+                    // Do-while for user to pick information they would like from a student record.
                     do {
-                            System.out.println("Please select an option:\n" +
+                            System.out.println("\nPlease select an option:\n" +
                                     "1. Name\n" +
                                     "2. Address\n" +
                                     "3. Grade\n" +
@@ -162,38 +211,58 @@ public class StudInfoTest {
                             case 10:
                                 System.out.println("Please give the index of the student (0-9):");
                                 int posIndexInput = getNumUserInput(info, 0, 9);
+
                                 if (posIndexInput != -1)
                                     indexInput = posIndexInput;
                                 break;
                             case 11:
+                                // Exits loop
                                 keepGoingInfo = false;
                                 break;
                         }
-                        System.out.println();
                     } while (keepGoingInfo);
+
                     break;
+
+                // Output number of students
                 case 8:
                     System.out.println("There are " + info.getCounter() + " student records saved.");
+
                     break;
+
+                // Output average mark of all students
                 case 9:
                     System.out.println(info.calcAllAver());
+
                     break;
+
+                // Delete records of all students
                 case 10:
+                    // Creates new StudentIO instance and gets rid of old one.
                     info = new StudentIO();
+
                     break;
+
+                // Exit
                 case 11:
+                    // Exists loop
                     keepGoingMain = false;
+
                     break;
             }
         } while(keepGoingMain);
     }
 
+    // Method to get int input from user. It does error check to make sure input is valid.
     private static int getNumUserInput(StudentIO info, int min, int max) {
         int input;
         try {
             input = Integer.parseInt(keyboard.nextLine());
+
             if (input < min || input > max)
                 throw new NumberFormatException("Number Not From " + min + " to " + max);
+
+            // Ignores errors for calls that do not require info.
             if (info != null) {
                 if (info.getSaveRecord(input) == null)
                     throw new IndexOutOfBoundsException("Student Not Found");
@@ -201,10 +270,12 @@ public class StudInfoTest {
         } catch (NumberFormatException e) {
             System.out.println("Error: Invalid Input, please enter a number from " + min + " to " + max + ".");
             input = -1;
+
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Student record does not exist.");
             input = -1;
         }
+
         return input;
     }
 }
