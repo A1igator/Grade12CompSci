@@ -9,18 +9,19 @@ public class DisplayScore {
     }
 
     public void add(String username, int time, String level) {
-        GameEntry entry = new GameEntry(username,time,level);
-        entries.add(entry);
-        for (int i = 1; i < entries.size(); i++) {
-            for (int j = i - 1; j >= 0; j--) {
-                if (entries.get(j).getTime() > entries.get(j + 1).getTime())
-                    swap(j + 1, j);
-                else
-                    break;
-            }
+        GameEntry entry = new GameEntry(username, time, level);
+        
+//         entries.add(entry);
+//         for (int i = 1; i < entries.size(); i++) {
+        for (int j = entries.size() - 1; j >= 0; j--) {
+            if (entries.get(j).getTime() < entry.getTime())
+                entries.add(j + 1, entry);
+            else
+                break;
         }
-        if (entries.size() > 10)
-            entries.remove(entries.size() - 1);
+//         }
+//         if (entries.size() > 10)
+//             entries.remove(entries.size() - 1);
     }
 
     public void remove(String username, String level) {
