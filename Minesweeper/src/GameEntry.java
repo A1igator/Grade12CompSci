@@ -1,12 +1,11 @@
 public class GameEntry {
-    String username;
-    int time;
-    String level;
+    private String username, level;
+    private int time;
 
     GameEntry() {
         username = "Unknown";
         time = 0;
-        level = "Uknown";
+        level = "Unknown";
     }
 
     GameEntry(String username, int time, String level) {
@@ -39,7 +38,21 @@ public class GameEntry {
         this.level = level;
     }
 
+    public boolean equals(Object entryObj) {
+        // First make sure the two objects are of the same class
+        if (this.getClass() != entryObj.getClass())
+            return false;
+
+        // Now type−cast the incoming object to a GameEntry object
+        GameEntry entry = (GameEntry) entryObj;
+
+        // Now check for equality
+        return this.getUsername().equals(entry.getUsername()) &&
+                this.getLevel().equals(entry.getLevel());
+    }
+
+
     public String toString() {
-        return username + "," + time + "," + level;
+        return username + ", " + time + ", " + level;
     }
 }
