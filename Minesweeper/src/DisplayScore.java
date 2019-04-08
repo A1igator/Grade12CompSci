@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class DisplayScore {
     private ArrayList<GameEntry> entries;
@@ -23,12 +24,20 @@ public class DisplayScore {
     }
 
     public void remove(String username, String level) {
-        for (GameEntry entry: entries){
+        Iterator itr = entries.iterator();
+        while (itr.hasNext()) {
+            GameEntry entry = (GameEntry)itr.next();
             if (entry.equals(new GameEntry(username,0,level))) {
-                entries.remove(entry);
+                itr.remove();
                 break;
             }
         }
+//         for (GameEntry entry: entries){
+//             if (entry.equals(new GameEntry(username,0,level))) {
+//                 entries.remove(entry);
+//                 break;
+//             }
+//         }
     }
 
     public void sortName() {
