@@ -27,7 +27,7 @@ public class BasicStack extends BasicStackTest {
     }
 
     public boolean empty() {
-        return stack.size() == 0;
+        return stack.isEmpty();
     }
 
     public Object peek() {
